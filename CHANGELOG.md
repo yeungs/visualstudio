@@ -3,10 +3,10 @@
 This file is used to list changes made in each version of visualstudion.
 
 ## 0.0.11:
-
-Make this recipe work with Visual Studio 2013 installation as well. Add more attributes to the "install" recipe to specify your own AdminDeployment.xml source location. 
-
-The Visual Studio ISO already contain the AdminDeployment.xml file. Therefore when 7-zip extracts the files from ISO into the cache folder then this "cookbook_file" doesn't do anything if it "create_if_missing". We won't be able to override any custom settings in AdminDeployment.xml
+The Visual Studio ISO already contain the AdminDeployment.xml file.
+Therefore when 7-zip extracts the files from ISO into the cache folder
+then this "cookbook_file" doesn't do anything if it "create_if_missing".
+We won't be able to override any custom settings in AdminDeployment.xml
 
 ## 0.0.10:
 

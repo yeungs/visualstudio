@@ -27,19 +27,17 @@ if !node['visualstudio']['source']
   raise 'visualstudio source attribute must be set before running this cookbook'
 end
 
-Chef::Log.info("Starting Visual Studio #{node['visualstudio']['year']} installation. ")
-
 edition = node['visualstudio']['edition']
 install_url = File.join(node['visualstudio']['source'], node['visualstudio'][edition]['filename'])
 install_log_file = win_friendly_path(
   File.join(node['visualstudio']['install_dir'], 'vsinstall.log'))
 
-iso_extraction_dir = win_friendly_path(File.join(Chef::Config[:file_cache_path], node['visualstudio']['version']))
+iso_extraction_dir = win_friendly_path(File.join(Chef::Config[:file_cache_path], 'vs2012'))
 setup_exe_path = File.join(iso_extraction_dir, node['visualstudio'][edition]['installer_file'])
 admin_deployment_xml_file = win_friendly_path(File.join(iso_extraction_dir, 'AdminDeployment.xml'))
 
 # Extract the ISO image to the tmp dir
-seven_zip_archive "extract_#{node['visualstudio']['version']}_iso" do
+seven_zip_archive 'extract_vs2012_iso' do
   path iso_extraction_dir
   source install_url
   overwrite true
@@ -53,18 +51,6 @@ cookbook_file admin_deployment_xml_file do
   action :create
   not_if { vs_is_installed }
 end
-
-# This allows us to use recipe to install other versions of Visual Studio such as 2013.
-# This allows an user to specify their custom AdminDeployment.xml from anywhere such as Visual Studio 2013.
-# By default this doesn't gets executed if you don't define in a role or attributes file the a value for node['visualstudio']['admin_deployment_xml_file_src']
-if node['visualstudio']['admin_deployment_xml_file_src']
-  remote_file admin_deployment_xml_file do
-    source node['visualstudio']['admin_deployment_xml_file_src']
-    checksum node['visualstudio']['admin_deployment_xml_file_checksum']
-    action :create
-    not_if {vs_is_installed}
-  end
-end 
 
 # Install Visual Studio
 windows_package node['visualstudio'][edition]['package_name'] do

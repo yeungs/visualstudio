@@ -28,9 +28,6 @@ default['visualstudio']['install_dir'] = (ENV['ProgramFiles(x86)'] || 'C:\Progra
 
 # Set this attribute your self to the FQDN of the folder which contains the ISO
 # default['visualstudio']['source'] = 'http://example.com:8080/visualstudio'
- 
-default['visualstudio']['year'] = "2012"
-default['visualstudio']['version'] = "vs" + node['visualstudio']['year']
 
 # VS 2012 Test Professional
 default['visualstudio']['testprofessional']['installer_file'] = 'vs_testprofessional.exe'
